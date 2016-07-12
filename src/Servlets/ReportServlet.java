@@ -2,6 +2,7 @@ package Servlets;
 
 import java.io.IOException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -18,7 +19,7 @@ import model.Gradebook;
 /**
  * Servlet implementation class DisplayServlet
  */
-@WebServlet("/DisplayServlet")
+@WebServlet("/ReportServlet")
 public class ReportServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
@@ -47,45 +48,85 @@ public class ReportServlet extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 
-		// get parameters from the session
-		String name = request.getParameter("studentname");
-		String type = request.getParameter("assignmenttype");
+		HttpSession session = request.getSession();	
+		String name = request.getParameter("name");
+		String type = request.getParameter("type");
+		String aggregate = request.getParameter("aggregate");
+		String nextURL;
 		List<Gradebook> assignments = null;
+		List<Object[]> agglist = null;
+		boolean wantAggregates = false;
 
-		if (name == null || name.trim().length() <= 0) {
-			System.out.println("Name is empty");
+		/*if (name == "" ) {		
+			System.out.println("DisplayServlet: Name is empty");
 		} else {
 			System.out.println("DisplayServlet: student name is " + name);
+			assignments = GradebookDB.getAssignmentsbyName(name);
 		}
 
-		if (type == null || type.trim().length() <= 0) {
-			System.out.println("Type is empty");
+		if (type == "" ) {		
+			System.out.println("DisplayServlet: Type is empty");
 		} else {
 			System.out.println("DisplayServlet: type is " + type);
-		}
+		}*/
+		
+		System.out.println("Aggregate string: "+aggregate);
+		if (aggregate.equals("yes")) {
+			
+			System.out.println("Aggregate string: "+aggregate);
+			agglist = GradebookDB.getAggregateGrades();			
+			
+			wantAggregates = true;
+		} 
 
 		// get assignments for a selected student name and assignment type
-		if (name != null && type != null) {
+		else if (name != "" && type != "") {
 
 			assignments = GradebookDB.getAssignments(name, type);
 		}
 
 		// get assignments for a selected student
-		else if (name != null && type == null) {
+		else if (name != "" && type == "") {
+			
+			System.out.println("Report Servlet for selected student: "+name);
 
 			// TO DO: pass in type to get assignments by name & type
 			assignments = GradebookDB.getAssignmentsbyName(name);
 
-		// get assignments for a selected assignment type
-		} else if (name == null && type != null) {
-			assignments = GradebookDB.getAssignmentsbyType(type);
-		}
-
-		HttpSession session = request.getSession();
-		session.setAttribute("assignments", assignments);
 		
-		// redirect to assignments page to display assignments
-		String nextURL = "/assignments.jsp";
+		} 
+		else if (name == "" && type != "") {
+			// get assignments for a selected assignment type
+			assignments = GradebookDB.getAssignmentsbyType(type);
+		} 		
+				
+		if (wantAggregates) {
+			
+			System.out.println("calling aggReport");
+			
+			StringBuffer report = new StringBuffer();
+			
+			// DEBUG: print aggregate report to console
+			for (Object[] r: agglist){
+				 System.out.print(r[0].toString());
+				 System.out.print("\t");
+				 System.out.print(r[1].toString());
+				 System.out.print("\t");
+				 System.out.print(r[2].toString());
+				 System.out.print("\t");
+				 System.out.println(r[3].toString());
+				 report.append("<tr><td>"+r[0].toString() + "</td><td>"+r[1].toString()+"</td><td>"+r[2].toString()+"</td></tr>");
+				 }				
+			
+			session.setAttribute("reportstring", report.toString());			
+			nextURL = "/aggReport.jsp";
+		} else {		
+		
+			session.setAttribute("assignments", assignments);		
+			// redirect to assignments page to display assignments
+			nextURL = "/detailReport.jsp";
+		}
+		
 		request.getRequestDispatcher(nextURL).forward(request, response);
 
 		return;

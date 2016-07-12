@@ -7,13 +7,14 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<title>BH Posts</title>
+<title>Gradebook</title>
 <jsp:include page="bootstrap.jsp"></jsp:include>
 </head>
 <body>
+<h2>Gradebook Report</h2>
 <table class="table table-bordered table-hover table-striped">
     <thead>
-        <tr><th>User</th><th>Post</th><th>Date</th></tr>
+        <tr><th>StudentName</th><th>Assignment</th><th>Type</th><th>Date</th><th>Grade</th></tr>
     </thead>
     <tbody>
     <c:forEach var="assignment" items="${assignments}">
@@ -27,5 +28,12 @@
     </c:forEach>
     </tbody>
 </table>
+
+<form action="getReportOptions.jsp" method="post">
+	<input type="hidden" name="action" id="action" value="edit"></input>
+	<input type="submit" name="submit" id="submit" value="Get more reports"></input>
+</form>
+	
+
 </body>
 </html>

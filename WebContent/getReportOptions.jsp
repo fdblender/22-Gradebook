@@ -6,8 +6,8 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<title>Profile</title>
-<!-- <jsp:include page="navbar.jsp"></jsp:include> -->
+<title>Gradebook Report</title>
+<%-- <jsp:include page="navbar.jsp"></jsp:include> --%>
 </head>
 <body>
 
@@ -22,8 +22,13 @@
 			</tr>
 			<tr>
 				<td><c:out value="Enter the assignment type: " /></td>
-				<td><input type="text" name="motto" id="motto" value=""></input></td>
+				<td><input type="text" name="type" id="motto" value=""></input></td>
 			</tr>
+			<tr>
+				<td><c:out value="Enter 'yes' for aggregate report: " /></td>
+				<td><input type="text" name="aggregate" id="aggregate" value=""></input></td>
+			</tr>
+		</tbody>
 		</tbody>
 	</table>
 	
