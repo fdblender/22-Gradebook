@@ -17,14 +17,15 @@
 		var re = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
 		var goodemail = re.test(email);
 		if (goodemail == false)
-			alert("Invalid Email!");
+			alert("Invalid Email! "+email);
 
-		// check the password
+		// check the password and restrict the length to 4 - 15 characters
+		// the passsword must be lower case, upper case or a number
 		var password = $('#password').val();
-		var pword = new RegExp(/^[a-zA-Z0-9]{4,100}$/)
+		var pword = new RegExp(/^[a-zA-Z0-9]{4,15}$/)
 		goodpassword = pword.test(password)
 		if (!goodpassword) {
-			alert("Invalid Password!"+password);
+			alert("Invalid Password! "+password);
 		}
 
 		return (goodpassword && goodemail);
@@ -54,15 +55,6 @@
 			type="submit" name="submit" id="submit" value="Login"></input>
 	</form>
 
-	<script>
-		function verifyPassword() {
-			var password = $('#password').val();
-
-			if (password.length < 1) {
-				alert('That password is too short.' + password);
-			}
-		}
-	</script>
 
 </body>
 </html>
