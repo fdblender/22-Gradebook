@@ -9,7 +9,7 @@
 <title>ValidateLogin</title>
 
 <script>
-	function validateEmail() {
+	function validateLogin() {
 		var email = $('#email').val();
 		// http://stackoverflow.com/a/46181/11236
 
@@ -32,21 +32,10 @@
 	}
 </script>
 
-<script>
-	function checkPass() {
-		var form_valid = (document.getElementById('password').value == 'password');
-		if (!form_valid) {
-			alert('Given data is incorrect');
-			return false;
-		}
-		return true;
-	}
-</script>
-
 </head>
 <body>
 
-	<form onsubmit="return validateEmail()" action="dataentry.jsp"
+	<form onsubmit="return validateLogin()" action="dataentry.jsp"
 		method="get">
 		<p>Enter a valid email and password</p>
 		<input type="text" name="email" id="email" value=""></input> <input
@@ -54,7 +43,6 @@
 			type="hidden" name="action" id="action" value="login"></input> <input
 			type="submit" name="submit" id="submit" value="Login"></input>
 	</form>
-
 
 </body>
 </html>
