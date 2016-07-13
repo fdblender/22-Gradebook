@@ -13,7 +13,7 @@
 </head>
 <body>
 
-	<form onsubmit="return validateText()" action="login.jsp" method="post">
+	<form onsubmit="return validateForm()" action="login.jsp" method="post">
 		<p>Enter your first name</p>
 		<input type="text" name="first" id="first" value=""></input>
 		<p>Enter your last name</p>
@@ -36,7 +36,9 @@
 				return true;
 			}
 		}
-		function validateText() {
+		
+		// but this function does work!
+		function validateForm() {
 
 			var first = $('#first').val();
 			var last = $('#last').val();
